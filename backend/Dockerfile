@@ -8,11 +8,18 @@ ENV PYTHONUNBUFFERED=1 \
 
 WORKDIR /app
 
-# Install system dependencies
+# Install system dependencies including Node.js for Supabase CLI
 RUN apt-get update && apt-get install -y --no-install-recommends \
   build-essential \
   curl \
+  ca-certificates \
+  gnupg \
+  && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+  && apt-get install -y nodejs \
   && rm -rf /var/lib/apt/lists/*
+
+# Install Supabase CLI
+RUN npm install -g supabase
 
 # Create non-root user and set up directories
 RUN useradd -m -u 1000 appuser && \
@@ -23,13 +30,14 @@ RUN useradd -m -u 1000 appuser && \
 COPY --chown=appuser:appuser requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt gunicorn
 
-RUN supabase db push
-
 # Switch to non-root user
 USER appuser
 
 # Copy application code
 COPY --chown=appuser:appuser . .
+
+# Run Supabase migrations after copying the configuration files
+RUN supabase db push
 
 # Expose the port the app runs on
 EXPOSE 8000
