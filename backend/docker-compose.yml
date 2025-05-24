@@ -30,14 +30,14 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-    deploy:
-      resources:
-        limits:
-          cpus: "14"
-          memory: 48G
-        reservations:
-          cpus: "8"
-          memory: 32G
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: "4"
+    #       memory: 8G
+    #     reservations:
+    #       cpus: "2"
+    #       memory: 4G
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
       interval: 30s
@@ -75,14 +75,14 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-    deploy:
-      resources:
-        limits:
-          cpus: "14"
-          memory: 48G
-        reservations:
-          cpus: "8"
-          memory: 32G
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: "4"
+    #       memory: 16G
+    #     reservations:
+    #       cpus: "2"
+    #       memory: 8G
 
   worker-2:
     build:
@@ -114,14 +114,14 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-    deploy:
-      resources:
-        limits:
-          cpus: "14"
-          memory: 48G
-        reservations:
-          cpus: "8"
-          memory: 32G
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: "4"
+    #       memory: 16G
+    #     reservations:
+    #       cpus: "2"
+    #       memory: 8G
 
   redis:
     image: redis:7-alpine
@@ -145,14 +145,14 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-    deploy:
-      resources:
-        limits:
-          cpus: "2"
-          memory: 12G
-        reservations:
-          cpus: "1"
-          memory: 8G
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: "2"
+    #       memory: 12G
+    #     reservations:
+    #       cpus: "1"
+    #       memory: 8G
 
   rabbitmq:
     image: rabbitmq
@@ -174,14 +174,14 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-    deploy:
-      resources:
-        limits:
-          cpus: "2"
-          memory: 12G
-        reservations:
-          cpus: "1"
-          memory: 8G
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: "2"
+    #       memory: 12G
+    #     reservations:
+    #       cpus: "1"
+    #       memory: 8G
 
 networks:
   app-network:
