@@ -8,18 +8,19 @@ ENV PYTHONUNBUFFERED=1 \
 
 WORKDIR /app
 
-# Install system dependencies including Node.js for Supabase CLI
+# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
   build-essential \
   curl \
   ca-certificates \
-  gnupg \
-  && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
-  && apt-get install -y nodejs \
+  wget \
   && rm -rf /var/lib/apt/lists/*
 
-# Install Supabase CLI
-RUN npm install -g supabase
+# Install Supabase CLI via official Linux package
+RUN SUPABASE_VERSION=$(curl -s https://api.github.com/repos/supabase/cli/releases/latest | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/') \
+  && wget "https://github.com/supabase/cli/releases/latest/download/supabase_${SUPABASE_VERSION}_linux_amd64.deb" \
+  && dpkg -i "supabase_${SUPABASE_VERSION}_linux_amd64.deb" \
+  && rm "supabase_${SUPABASE_VERSION}_linux_amd64.deb"
 
 # Create non-root user and set up directories
 RUN useradd -m -u 1000 appuser && \
